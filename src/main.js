@@ -1,36 +1,46 @@
+import { startRenderer } from "./renderer/render.js";
+import { initializeHands } from "./vision/hands.js";
 import "./style.css";
-import { startCamera } from "./camera/camera";
+import { startCamera } from "./camera/camera.js";
 
 document.querySelector("#app").innerHTML = `
-  <div class="landing" id="landing">
-      <h1>FrameShift</h1>
-      <p>Peek into another universe.</p>
+<div id="landing" class="landing">
+    <h1>FrameShift</h1>
 
-      <button id="start-btn">
+    <p>Peek into another universe.</p>
+
+    <button id="start">
         Start Experience
-      </button>
-  </div>
+    </button>
+</div>
 
-  <video
-      id="camera"
-      autoplay
-      playsinline
-      muted
-      style="display:none;"
-  ></video>
+<video
+    id="camera"
+    autoplay
+    playsinline
+    muted
+    style="display:none;"
+></video>
+
+<canvas id="output"></canvas>
 `;
 
-const startBtn = document.getElementById("start-btn");
 const landing = document.getElementById("landing");
-const video = document.getElementById("camera");
+const camera = document.getElementById("camera");
+const start = document.getElementById("start");
 
-startBtn.addEventListener("click", async () => {
-  landing.style.display = "none";
+camera.style.display = "none";
 
-  video.style.display = "block";
-  video.style.width = "100vw";
-  video.style.height = "100vh";
-  video.style.objectFit = "cover";
+start.onclick = async () => {
+    landing.style.display = "none";
 
-  await startCamera(video);
-});
+    await startCamera(camera);
+
+    camera.style.display = "none"; // hide the raw video
+
+    const canvas = document.getElementById("output");
+
+    startRenderer(camera, canvas);
+
+    await initializeHands();
+};
