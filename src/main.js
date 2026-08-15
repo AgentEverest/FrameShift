@@ -27,20 +27,22 @@ document.querySelector("#app").innerHTML = `
 
 const landing = document.getElementById("landing");
 const camera = document.getElementById("camera");
+const canvas = document.getElementById("output");
 const start = document.getElementById("start");
 
 camera.style.display = "none";
+canvas.style.display = "none";
 
 start.onclick = async () => {
-    landing.style.display = "none";
+    console.log("BUTTON CLICKED");    landing.style.display = "none";
+
+    canvas.style.display = "block";
 
     await startCamera(camera);
 
-    camera.style.display = "none"; // hide the raw video
-
-    const canvas = document.getElementById("output");
-
-    startRenderer(camera, canvas);
+    camera.style.display = "none";
 
     await initializeHands();
+
+startRenderer(camera, canvas);
 };

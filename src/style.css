@@ -68,7 +68,9 @@ video{
     transform:scaleX(-1);
 }
 canvas {
+    position: fixed;
+    inset: 0;
     width: 100vw;
     height: 100vh;
-    display: block;
+    display: none;
 }
